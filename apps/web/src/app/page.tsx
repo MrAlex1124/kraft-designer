@@ -4669,7 +4669,7 @@ function StaticIntro() {
     // half sits in <noscript>: crawlers and link previews without JavaScript read it as text, a
     // browser never draws it and Chrome's guess no longer sees it.
     <main className="visually-hidden notranslate" translate="no">
-      <h1>layerling - Free 3D CAD for 3D printing in your browser</h1>
+      <h1>Kraft Designer – böngészős 3D CAD</h1>
       <section lang="en">
         <h2>{translate("en", "welcome.teaserTitle")}</h2>
         <WelcomeGuideBody tr={(key) => translate("en", key)} />
