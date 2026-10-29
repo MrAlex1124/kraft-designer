@@ -3516,9 +3516,9 @@ function Dashboard({
     <main className="dashboard-shell">
       <header className="dashboard-topbar">
         <a className="dashboard-brand" href="./" aria-label={t("brand.home")}>
-          <img src="/assets/layerling/layerling-logo.svg" alt="" />
+          <img src="/kraft-designer-mark.svg" alt="" />
           <span className="dashboard-brand-text">
-            <span className="dashboard-brand-name">layerling</span>
+            <span className="dashboard-brand-name">Kraft Designer</span>
             <span className="dashboard-tagline">{t("brand.tagline")}</span>
           </span>
         </a>
