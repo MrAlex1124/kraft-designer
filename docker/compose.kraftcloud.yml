@@ -1,0 +1,29 @@
+# Kraft Designer — initial isolated deployment on KraftCloud.
+# Run from repository root: docker compose -f docker/compose.kraftcloud.yml up -d --build
+services:
+  kraft-designer:
+    container_name: kraft-designer
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: kraft-designer:local
+    restart: unless-stopped
+    ports:
+      # Only a reverse proxy on the same host may connect to the app.
+      - "127.0.0.1:${KRAFT_DESIGNER_PORT:-3300}:3000"
+    environment:
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+      NEXT_TELEMETRY_DISABLED: "1"
+      LAYERLING_DEFAULT_THEME: "graphite"
+      # Set the actual public domain via environment when reverse proxying.
+      LAYERLING_ALLOWED_ORIGINS: "${KRAFT_DESIGNER_ORIGIN:-https://designer.3dkraft.hu}"
+      # Remote MCP and shared server projects intentionally disabled in v0.1.
+    volumes:
+      - kraft-designer-thumbnails:/app/.codex/project-thumbnails
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 3g
+
+volumes:
+  kraft-designer-thumbnails:
