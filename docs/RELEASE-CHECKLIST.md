@@ -25,3 +25,7 @@ The release workflow publishes the container under this repository's GitHub Cont
 - [ ] Confirm public commits contain no credentials, private infrastructure or proprietary integration code.
 
 **Status:** These checks are not represented as passed until a CI run or a manual test produces evidence. Do not mark v0.2 production-ready solely because this file exists.
+
+## Public repository boundary check
+
+Run `node scripts/check-public-boundary.mjs` before publishing. It checks a small set of public-facing files for accidental service-specific references and credential-shaped literals. It is a supplementary guard, **not** a complete secrets scan, dependency audit, or guarantee that Git history is clean.
