@@ -1,9 +1,9 @@
 name: Docker image
 
 # Builds the image from docker/Dockerfile and publishes it as
-# ghcr.io/henmedia/layerling with the release's version and "latest". When the
+# ghcr.io/${{ github.repository }} with the release's version and "latest". When the
 # repository has the secrets DOCKERHUB_USERNAME and DOCKERHUB_TOKEN, the same
-# multi-arch image is copied to Docker Hub as well (docker.io/<user>/layerling),
+# multi-arch image is copied to Docker Hub as well (docker.io/<user>/kraft-designer),
 # where a NAS finds it in its registry search; without them that step is skipped.
 # It starts by itself when a GitHub release is published and runs in the
 # background - nothing in the release waits for it. amd64 and arm64 are built
@@ -68,8 +68,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.title=layerling
-            org.opencontainers.image.description=Easy 3D CAD for 3D printing, in your browser
+            org.opencontainers.image.title=Kraft Designer
+            org.opencontainers.image.description=Independent browser-based 3D CAD editor
             org.opencontainers.image.licenses=AGPL-3.0-only
             org.opencontainers.image.version=${{ env.TAG }}
           outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
@@ -134,7 +134,7 @@ jobs:
         if: ${{ env.DOCKERHUB_USERNAME != '' }}
         run: |
           version="${TAG#v}"
-          hub="docker.io/${DOCKERHUB_USERNAME}/layerling"
+          hub="docker.io/${DOCKERHUB_USERNAME}/kraft-designer"
           docker buildx imagetools create \
             -t "$hub:$version" \
             -t "$hub:latest" \

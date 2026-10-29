@@ -155,7 +155,7 @@ export async function fetchLatestGitHubRelease(
       timestamp: Date.now(),
       latestVersion: formatted,
       releaseUrl: `${sourceCodeUrl.replace(/\/+$/, "")}/releases`,
-      releaseName: `layerling ${formatted}`,
+      releaseName: `Kraft Designer ${formatted}`,
       publishedAt: new Date().toISOString(),
     };
   }
