@@ -3516,9 +3516,9 @@ function Dashboard({
     <main className="dashboard-shell">
       <header className="dashboard-topbar">
         <a className="dashboard-brand" href="./" aria-label={t("brand.home")}>
-          <img src="/assets/layerling/layerling-logo.svg" alt="" />
+          <img src="/kraft-designer-mark.svg" alt="" />
           <span className="dashboard-brand-text">
-            <span className="dashboard-brand-name">layerling</span>
+            <span className="dashboard-brand-name">Kraft Designer</span>
             <span className="dashboard-tagline">{t("brand.tagline")}</span>
           </span>
         </a>
@@ -4669,7 +4669,7 @@ function StaticIntro() {
     // half sits in <noscript>: crawlers and link previews without JavaScript read it as text, a
     // browser never draws it and Chrome's guess no longer sees it.
     <main className="visually-hidden notranslate" translate="no">
-      <h1>layerling - Free 3D CAD for 3D printing in your browser</h1>
+      <h1>Kraft Designer – böngészős 3D CAD</h1>
       <section lang="en">
         <h2>{translate("en", "welcome.teaserTitle")}</h2>
         <WelcomeGuideBody tr={(key) => translate("en", key)} />

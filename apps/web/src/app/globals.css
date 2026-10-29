@@ -15170,3 +15170,7 @@ html[data-theme="dark"] .guide-videos a:hover,
 html[data-theme="dark"] .interactive-help-more a:hover {
   color: #ffc784;
 }
+
+/* Kraft Designer visual identity */
+:root { --primary: #007bff; --active-tab: #0069dc; --filament-cobalt: #007bff; --workplane: #4d9cff; --workplane-soft: rgba(0,123,255,.16); --toolbar-bg: #f5f9ff; --toolbar-edge: #dce7f5; --group-home: #007bff; }
+html[data-theme="dark"] { --primary: #4aa3ff; --active-tab: #3c93f4; --filament-cobalt: #4aa3ff; }

@@ -2485,7 +2485,7 @@ export function LayerlingEditor({
   onProjectNameChange,
   onCreateProjectFromState,
   projectId,
-  projectName = "Layerling design",
+  projectName = "Új terv",
   projectCreatedAt = Date.now(),
   projectModifiedAt = Date.now(),
   projectRevision = 0,
