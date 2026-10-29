@@ -635,7 +635,7 @@ export function TopActionPanel({
             <p className="print-estimate-note">A modell elkészítése után kérhetsz 3D nyomtatási ajánlatot. A továbblépéshez a tervezőt támogató oldalon kell megnyitni.</p>
           ) : null}
           <footer className="export-dialog-footer">
-            {exportFormat === "stl" && stlFileName ? (
+            {!printMode && exportFormat === "stl" && stlFileName ? (
               stlNameAsksForNewFile(exportName, projectName, stlFileName)
                 ? <span className="export-linked-file" title={exportName}>{t("export.stlNewFile", { name: projectExportFileName(exportName.trim().replace(/\.stl$/i, ""), "stl") })}</span>
                 : <span className="export-linked-file" title={stlFileName}>{t("export.stlLinkedFile", { name: stlFileName })}</span>
@@ -646,7 +646,7 @@ export function TopActionPanel({
                   <span>{t("export.stlSaveAs")}</span>
                 </button>
               ) : null}
-              {exportFormat === "lyl" && sharedProjectsEnabled ? (
+              {!printMode && exportFormat === "lyl" && sharedProjectsEnabled ? (
                 <button
                   className="export-shared-button"
                   type="button"
@@ -657,7 +657,7 @@ export function TopActionPanel({
                   <span>{t("export.saveToShared")}</span>
                 </button>
               ) : null}
-              {exportFormat !== "lyl" && sharedProjectsEnabled ? (
+              {!printMode && exportFormat !== "lyl" && sharedProjectsEnabled ? (
                 <button
                   className="export-shared-button"
                   type="button"
