@@ -1,3 +1,15 @@
+# Kraft Designer
+
+**Tervezd meg. Formáld meg. Alkoss szabadon.**
+
+Önálló, magyar nyelven is használható böngészős 3D CAD-alkalmazás. [Részletes magyar projektleírás](README.hu.md).
+
+A Kraft Designer a Layerling forkja, továbbra is AGPL-3.0-only licenc alatt. Az eredeti dokumentáció alább olvasható.
+
+---
+
+## Layerling upstream documentation
+
 <div align="center">
   <table>
     <tr>
