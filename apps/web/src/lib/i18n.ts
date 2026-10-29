@@ -178,10 +178,8 @@ export function detectLanguage(): Language {
   } catch {
     // Fall through to the browser's own preference.
   }
-  for (const tag of window.navigator.languages ?? [window.navigator.language]) {
-    const language = languageFromTag(tag);
-    if (language) return language;
-  }
+  // Kraft Designer defaults to Hungarian for first-time visitors.
+  // An explicit saved language choice always takes precedence.
   return DEFAULT_LANGUAGE;
 }
 
@@ -193,7 +191,7 @@ export function detectLanguage(): Language {
  */
 export const LANGUAGE_BOOT_SCRIPT = `try{var m=${JSON.stringify(
   Object.fromEntries(LANGUAGES.map((language) => [language, LANGUAGE_INFO[language].htmlLang])),
-)},a=${JSON.stringify(LANGUAGE_TAG_ALIASES)},l=null;try{var s=localStorage.getItem(${JSON.stringify(LANGUAGE_STORAGE_KEY)});if(m[s])l=s}catch(e){}if(!l){var t=navigator.languages||[navigator.language];for(var i=0;i<t.length&&!l;i++){var p=String(t[i]||"").trim().toLowerCase().split("-"),r=p.slice(0,2).join("-");l=m[r]?r:a[r]?a[r]:m[p[0]]?p[0]:null}}document.documentElement.lang=m[l||${JSON.stringify(DEFAULT_LANGUAGE)}]}catch(e){}`;
+)},a=${JSON.stringify(LANGUAGE_TAG_ALIASES)},l=null;try{var s=localStorage.getItem(${JSON.stringify(LANGUAGE_STORAGE_KEY)});if(m[s])l=s}catch(e){}document.documentElement.lang=m[l||${JSON.stringify(DEFAULT_LANGUAGE)}]}catch(e){}`;
 
 export function translate(
   language: Language,
