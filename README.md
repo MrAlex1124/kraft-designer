@@ -1,3 +1,17 @@
+# Kraft Designer
+
+**Tervezd meg. Formáld meg. Alkoss szabadon.**
+
+A Kraft Designer egy önálló, böngészőben működő 3D CAD-tervező. Magyar alapfelülettel, #007BFF kék arculattal és saját KraftCloud Docker-telepítési előkészítéssel indul. A CAD-alkalmazás **nem tartalmaz KraftPrint- vagy 3DKraft-üzleti logikát**: minden jövőbeli kereskedelmi integráció a külön KraftPrint plugin feladata.
+
+**[Részletes magyar projektleírás](README.hu.md)** · **[KraftCloud Docker-telepítés](docs/KRAFT-DESIGNER-DEPLOY.md)** · **[Fejlesztési határok](AGENTS.md)**
+
+> v0.1 fejlesztési előkészítés; a build és a funkcionális tesztelés még hátravan. A projekt a Layerling AGPL-3.0-only licencű forkja; az eredeti dokumentáció és szerzői jogi tájékoztatás alább megmarad.
+
+---
+
+## Upstream Layerling documentation
+
 <div align="center">
   <table>
     <tr>
