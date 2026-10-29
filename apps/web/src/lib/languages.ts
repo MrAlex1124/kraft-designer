@@ -94,7 +94,7 @@ export type LanguageInfo = {
   guide: GuideStrings;
 };
 
-const GITHUB_DISCUSSIONS = "https://github.com/henmedia/layerling/discussions";
+const GITHUB_DISCUSSIONS = "https://github.com/MrAlex1124/kraft-designer/discussions";
 const DRUCKTIPPS_FORUM = "https://forum.drucktipps3d.de/forum/board/127-layerling/";
 
 export const LANGUAGE_INFO: Readonly<Record<Language, LanguageInfo>> = {
