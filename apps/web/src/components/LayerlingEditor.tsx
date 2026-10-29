@@ -12026,7 +12026,17 @@ export function LayerlingEditor({
   }, [hasSelection, selectedShapes, shapes]);
 
   /** `chooseFile` asks for a new STL even when the design already has one (Save as). `svgView` picks what an SVG shows (#692). */
-  const exportDesign = useCallback(async (format: DirectExportFormat, exportName: string, chooseFile = false, svgView: SvgExportView = "silhouette", toServer = false, bridges: StencilBridgeOptions | null = null) => {
+  const exportDesign = useCallback(async (format: DirectExportFormat, exportName: string, chooseFile = false, svgView: SvgExportView = "silhouette", toServer = false, bridges: StencilBridgeOptions | null = null, handoff = false) => {
+    // Optional, application-neutral print handoff. Never accept an origin from the caller.
+    const allowedOrigin = process.env.NEXT_PUBLIC_DESIGNER_HANDOFF_ORIGIN || "";
+    if (handoff && (!allowedOrigin || window.parent === window || new URL(allowedOrigin).origin !== allowedOrigin)) {
+      setNotice("A 3D nyomtatás átadása jelenleg nem érhető el.", true);
+      return;
+    }
+    if (!handoff && process.env.NEXT_PUBLIC_DESIGNER_PRINT_MODE === "true" && (format === "stl" || format === "3mf" || format === "obj")) {
+      setNotice("A közvetlen modellletöltés ebben a változatban nem érhető el.", true);
+      return;
+    }
     const source = exportSource();
     const selectionScoped = source.selection;
     // Ausgeblendetes bleibt draussen, wie bei vergleichbaren Programmen: ein beiseitegelegtes
@@ -12136,7 +12146,7 @@ export function LayerlingEditor({
     const designId = projectId ?? "";
     let target: LylFileHandle | "download" = "download";
     // With "Save STL as a download" the browser hands out the files, and numbers them (#731).
-    if (format === "stl" && !toServer && lylFileAccessSupported() && !workspaceSettingsRef.current.stlAsDownload) {
+    if (format === "stl" && !handoff && !toServer && lylFileAccessSupported() && !workspaceSettingsRef.current.stlAsDownload) {
       try {
         const linkedBefore = linkedStlFile(designId);
         // A name typed in the window that is not the linked file's asks for a file of its own (reported by mail, 15.10.2026).
@@ -12163,7 +12173,18 @@ export function LayerlingEditor({
       .then(async ({ meshes: fertig, quellen, verschmolzen, gescheitert, splinters }) => {
         if (format === "stl") {
           const bytes = new Uint8Array(exportMeshesToStl(fertig));
-          if (target === "download") {
+          if (handoff) {
+            // The container embeds the editor and listens for this generic versioned event.
+            // The target origin is fixed at build time; do not use "*".
+            const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+            window.parent.postMessage({
+              type: "kraft-designer:print-model",
+              version: 1,
+              fileName: projectExportFileName(exportName, "stl"),
+              mimeType: "model/stl",
+              data: buffer,
+            }, allowedOrigin, [buffer]);
+          } else if (target === "download") {
             await deliver(projectExportFileName(exportName, "stl"), new Blob([bytes], { type: "model/stl" }), "model/stl");
           } else {
             await writeLylFile(target, bytes).catch(() => {
@@ -14320,6 +14341,8 @@ export function LayerlingEditor({
           onEstimatePrint={exportSolidVolumeOffThread}
           onClose={() => setTopPanel(null)}
           onExport={(format, exportName, chooseFile, svgView, toServer, bridges) => void exportDesign(format, exportName, chooseFile, svgView, toServer, bridges)}
+          onRequestPrint={(name) => void exportDesign("stl", name, false, "silhouette", false, null, true)}
+          printMode={process.env.NEXT_PUBLIC_DESIGNER_PRINT_MODE === "true"}
           stlFileName={topPanel === "export" && !workspaceSettings.stlAsDownload ? linkedStlFile(projectId ?? "")?.name ?? null : null}
           onExportLyl={exportLylDesign}
           onExportStep={exportStepDesign}

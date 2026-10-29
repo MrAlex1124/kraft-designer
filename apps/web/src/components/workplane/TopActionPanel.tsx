@@ -43,6 +43,8 @@ export function TopActionPanel({
   onEstimatePrint,
   onClose,
   onExport,
+  onRequestPrint,
+  printMode = false,
   stlFileName = null,
   onExportLyl,
   onExportStep,
@@ -82,6 +84,8 @@ export function TopActionPanel({
   onExport: (format: DirectExportFormat, exportName: string, chooseFile?: boolean, svgView?: SvgExportView, toServer?: boolean, bridges?: StencilBridgeOptions | null) => void;
   /** The STL file this design exports into, once one was chosen (Chrome and Edge). */
   stlFileName?: string | null;
+  onRequestPrint?: (name: string) => void;
+  printMode?: boolean;
   onExportLyl: (exportName: string, historyLimit: LylHistoryLimit, target?: LylExportTarget) => void;
   onExportStep: (exportName: string, toServer?: boolean) => void;
   onExportDrawing: (exportName: string, format: "svg" | "pdf", toServer?: boolean) => void;
@@ -110,6 +114,8 @@ export function TopActionPanel({
   // The width a picture or an SVG comes in at; empty keeps its own size, and it counts for the next import only.
   const [svgWidthText, setSvgWidthText] = useState(() => { const width = readImportSvgWidth(); return width ? String(width) : ""; });
   const [exportFormat, setExportFormat] = useState<ExportFormat>("stl");
+  // In print mode customers only use a generic model handoff, not an export download.
+
   const [drawingFormat, setDrawingFormat] = useState<"svg" | "pdf">("pdf");
   const [svgView, setSvgView] = useState<SvgExportView>("silhouette");
   const [dxfView, setDxfView] = useState<DxfExportView>("silhouette");
@@ -625,8 +631,11 @@ export function TopActionPanel({
             <p>{selectedExport.note}</p>
           </div>
 
+          {printMode ? (
+            <p className="print-estimate-note">A modell elkészítése után kérhetsz 3D nyomtatási ajánlatot. A továbblépéshez a tervezőt támogató oldalon kell megnyitni.</p>
+          ) : null}
           <footer className="export-dialog-footer">
-            {exportFormat === "stl" && stlFileName ? (
+            {!printMode && exportFormat === "stl" && stlFileName ? (
               stlNameAsksForNewFile(exportName, projectName, stlFileName)
                 ? <span className="export-linked-file" title={exportName}>{t("export.stlNewFile", { name: projectExportFileName(exportName.trim().replace(/\.stl$/i, ""), "stl") })}</span>
                 : <span className="export-linked-file" title={stlFileName}>{t("export.stlLinkedFile", { name: stlFileName })}</span>
@@ -637,7 +646,7 @@ export function TopActionPanel({
                   <span>{t("export.stlSaveAs")}</span>
                 </button>
               ) : null}
-              {exportFormat === "lyl" && sharedProjectsEnabled ? (
+              {!printMode && exportFormat === "lyl" && sharedProjectsEnabled ? (
                 <button
                   className="export-shared-button"
                   type="button"
@@ -648,7 +657,7 @@ export function TopActionPanel({
                   <span>{t("export.saveToShared")}</span>
                 </button>
               ) : null}
-              {exportFormat !== "lyl" && sharedProjectsEnabled ? (
+              {!printMode && exportFormat !== "lyl" && sharedProjectsEnabled ? (
                 <button
                   className="export-shared-button"
                   type="button"
@@ -660,7 +669,12 @@ export function TopActionPanel({
                   <span>{t("export.saveToShared")}</span>
                 </button>
               ) : null}
-              <button className="export-primary-button" onClick={() => runSelectedExport()} disabled={(shapeCount === 0 && exportsBodies) || stepExporting || lylExporting || drawingExporting}>
+              {printMode ? (
+                <button className="export-primary-button" type="button" onClick={() => onRequestPrint?.(exportName)} disabled={shapeCount === 0 || !onRequestPrint}>
+                  <span>3D nyomtatás megrendelése</span>
+                </button>
+              ) : null}
+              {!printMode ? <button className="export-primary-button" onClick={() => runSelectedExport()} disabled={(shapeCount === 0 && exportsBodies) || stepExporting || lylExporting || drawingExporting}>
                 <Download />
                 {exportFormat === "lyl" ? (lylExporting ? t("export.savingProject") : t("export.saveProject")) : null}
                 <span hidden={exportFormat === "lyl"}>
@@ -670,7 +684,7 @@ export function TopActionPanel({
                   ? t("export.buildingStep")
                   : t("export.run", { format: selectedExport.label })}
                 </span>
-              </button>
+              </button> : null}
             </div>
           </footer>
         </div>
