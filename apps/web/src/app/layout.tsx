@@ -41,10 +41,10 @@ const STRUCTURED_DATA = {
   inLanguage: [...LANGUAGES],
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-  image: "/assets/layerling/layerling-social.png",
-  sameAs: ["https://github.com/henmedia/layerling"],
+
+  sameAs: ["https://github.com/MrAlex1124/kraft-designer"],
 };
-const SOCIAL_CARD = "/assets/layerling/layerling-social.png";
+const SOCIAL_CARD = "/kraft-designer-mark.svg";
 
 // Chrome and Edge announce "this can be installed" once, often before React is
 // running. The event is kept for the start page's install button
@@ -64,12 +64,12 @@ export const metadata: Metadata = {
     // Das SVG ist das eigentliche Symbol; die .ico steht daneben fuer alles,
     // was stur /favicon.ico abholt, statt in den Kopf zu sehen.
     icon: [
-      { url: "/assets/layerling/layerling-logo.svg", type: "image/svg+xml" },
+      { url: "/kraft-designer-mark.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "48x48" },
     ],
     // iOS nimmt hier ausschliesslich PNG. Stand da ein SVG, legte
     // "Zum Home-Bildschirm" einen Schnappschuss der Seite ab statt des Symbols.
-    apple: { url: "/assets/layerling/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+
   },
   openGraph: {
     type: "website",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     url: "/",
     locale: "hu_HU",
-    images: [{ url: SOCIAL_CARD, width: 1280, height: 640, type: "image/png", alt: TITLE }],
+    images: [{ url: SOCIAL_CARD, alt: TITLE }],
   },
   twitter: {
     card: "summary_large_image",
