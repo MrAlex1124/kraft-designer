@@ -15170,3 +15170,27 @@ html[data-theme="dark"] .guide-videos a:hover,
 html[data-theme="dark"] .interactive-help-more a:hover {
   color: #ffc784;
 }
+
+
+/* Kraft Designer v0.1 – standalone visual identity, neutral CAD functionality. */
+:root {
+  --primary: #007bff;
+  --active-tab: #0069dc;
+  --filament-cobalt: #007bff;
+  --workplane: #4d9cff;
+  --workplane-soft: rgba(0, 123, 255, 0.16);
+  --border: #dbe5f2;
+  --border-strong: #bfd0e6;
+  --toolbar-bg: #f5f9ff;
+  --toolbar-edge: #dce7f5;
+  --toolbar-divider: rgba(180, 201, 226, 0.8);
+  --toolbar-hover-ring: rgba(0, 123, 255, 0.35);
+  --group-home: #007bff;
+}
+html[data-theme="dark"] {
+  --primary: #4aa3ff;
+  --active-tab: #3c93f4;
+  --filament-cobalt: #4aa3ff;
+  --workplane: #4aa3ff;
+  --workplane-soft: rgba(74, 163, 255, 0.18);
+}
